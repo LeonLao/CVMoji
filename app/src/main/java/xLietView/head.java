@@ -1,0 +1,84 @@
+package xLietView;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import com.example.cvmoji.R;
+
+
+/**
+ * Created by jack on 2015/10/16.
+ */
+public class head extends LinearLayout{
+    private static final String HINT_NORMAL = "下拉刷新";
+    private static final String HINT_READY = "松开刷新数据";
+    private static final String HINT_LOADING = "正在加载...";
+
+    // 正常状态  
+    public final static int STATE_NORMAL = 0;
+    // 准备刷新状态，也就是箭头方向发生改变之后的状态  
+    public final static int STATE_READY = 1;
+    // 刷新状态，箭头变成了progressBar  
+    public final static int STATE_REFRESHING = 2;
+    // 布局容器，也就是根布局  
+    private LinearLayout container;
+    // 箭头图片  
+    private ImageView mArrowImageView;
+    // 刷新状态显示  
+    private ProgressBar mProgressBar;
+    // 说明文本  
+    private TextView mHintTextView;
+    // 记录当前的状态  
+    private int mState;
+    // 用于改变箭头的方向的动画  
+    private Animation mRotateUpAnim;
+    private Animation mRotateDownAnim;
+    // 动画持续时间  
+    private final int ROTATE_ANIM_DURATION = 180;
+
+
+    public head(Context context) {
+        super(context);
+        initView(context);
+    }
+
+    public head(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        initView(context);
+    }
+
+    private void initView(Context context) {
+        mState = STATE_NORMAL;
+        //初始情况下，下拉刷新view高度为0
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0);
+        container = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.x_head,null);
+        addView(container,lp);
+        //初始化控件
+        mArrowImageView = (ImageView)findViewById(R.id.xlistview_header_arrow);
+        mHintTextView =(TextView)findViewById(R.id.xlistview_header_hint_textview);
+        mProgressBar = (ProgressBar)findViewById(R.id.xlistview_header_progressbar);
+        //初始化动画
+        mRotateUpAnim = new RotateAnimation(0.0f,-180.0f,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+        mRotateUpAnim.setDuration(ROTATE_ANIM_DURATION);
+        mRotateUpAnim.setFillAfter(true);
+        mRotateDownAnim = new RotateAnimation(-180.0f, 0.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+                0.5f);
+        mRotateDownAnim.setDuration(ROTATE_ANIM_DURATION);
+        mRotateDownAnim.setFillAfter(true);
+
+    }
+    public void setState(int state){
+
+    }
+
+
+}
